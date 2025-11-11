@@ -1,0 +1,18 @@
+services:
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    command: npm run build
+    volumes:
+      - ./frontend/dist:/app/dist
+  caddy:
+    image: caddy:2.8-alpine
+    container_name: caddy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./caddy/local/Caddyfile:/etc/caddy/Caddyfile
+      - ./frontend/dist:/srv/frontend 
+    depends_on:
+      - frontend

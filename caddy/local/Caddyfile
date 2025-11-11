@@ -1,0 +1,6 @@
+localhost {
+    root * /srv/frontend
+    file_server
+}
+
+
