@@ -1,0 +1,43 @@
+name: Build, test and check formatting for frontend astro site.
+on:
+  push:
+    branches: ['main']
+    paths:
+      - 'frontend/**'
+      - '.github/workflows/build-frontend.yml'
+  pull_request:
+    branches:
+      - 'main'
+      - 'feature/*'
+      - 'fix/*'
+    paths:
+      - 'frontend/**'
+      - '.github/workflows/build-frontend.yml'
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    env:
+      CI: true
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Install NPM dependencies
+        run: npm install --force
+      - name: Build project
+        run: npm run build
+  format:
+    name: Format
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Install NPM dependencies
+        run: npm install --force
+      - run: npm run format-check
